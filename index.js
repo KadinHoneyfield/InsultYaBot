@@ -26,11 +26,15 @@ client.on("message", async function (message) {
   const command = args.shift().toLowerCase();
   if (command === "insult") {
     // after successfully create the play space, response to the user that call this command.
-    console.log(new URL("/index.php?style=3/", "http://autoinsult.datahamster.com/"))
-    response = await axios.get('http://autoinsult.datahamster.com/index.php?style=3/')
-    if (response.status = 200) {
+
+    response = await axios.get('http://autoinsult.com/index.php?style=3')
+    console.log(response.status);
+    if (response.status == 200) {
       webpage = new JSDOM(response.data)
       message.reply(webpage.window.document.querySelector("div.insult").textContent);
+    }
+    else {
+      message.reply("Sorry I had an issue trying to come up with an insult.")
     }
   }
 });
