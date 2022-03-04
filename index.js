@@ -1,9 +1,14 @@
-const axios = require("axios");
+const express = require('express')
+const path = require('path')
+const PORT = process.env.PORT || 5000
+
+  const axios = require("axios");
 const jsdom = require("jsdom");
 const { Client, Intents } = require("discord.js");
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
+
 const config = require("./app.json");
 const { JSDOM } = require("jsdom");
 
@@ -45,5 +50,10 @@ client.on("message", async function (message) {
     }
   }
 });
-
+express()
+.use(express.static(path.join(__dirname, 'public')))
+.set('views', path.join(__dirname, 'views'))
+.set('view engine', 'ejs')
+.get('/', (req, res) => res.render('pages/index'))
+.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 client.login(config.token);
